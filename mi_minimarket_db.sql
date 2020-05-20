@@ -43,6 +43,136 @@ INSERT INTO `address_db` VALUES (1,'3° Calle oriente','2-4A','Lourdes Colón',N
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bill_db`
+--
+
+DROP TABLE IF EXISTS `bill_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bill_db` (
+  `idbill_db` int(11) NOT NULL AUTO_INCREMENT,
+  `bill_client` int(11) NOT NULL,
+  `bill_date` date NOT NULL,
+  `bill_dbcol` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idbill_db`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bill_db`
+--
+
+LOCK TABLES `bill_db` WRITE;
+/*!40000 ALTER TABLE `bill_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bill_db` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category_db`
+--
+
+DROP TABLE IF EXISTS `category_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category_db` (
+  `id_category` int(11) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id_category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category_db`
+--
+
+LOCK TABLES `category_db` WRITE;
+/*!40000 ALTER TABLE `category_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category_db` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_category_join`
+--
+
+DROP TABLE IF EXISTS `product_category_join`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `product_category_join` (
+  `id_product_category_join` int(11) NOT NULL AUTO_INCREMENT,
+  `id_p` int(11) NOT NULL,
+  `id_c` int(11) NOT NULL,
+  PRIMARY KEY (`id_product_category_join`),
+  KEY `fk_product_category_join_product_db1_idx` (`id_p`),
+  KEY `fk_product_category_join_category_db1_idx` (`id_c`),
+  CONSTRAINT `fk_product_category_join_category_db1` FOREIGN KEY (`id_c`) REFERENCES `category_db` (`id_category`),
+  CONSTRAINT `fk_product_category_join_product_db1` FOREIGN KEY (`id_p`) REFERENCES `product_db` (`id_product`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_category_join`
+--
+
+LOCK TABLES `product_category_join` WRITE;
+/*!40000 ALTER TABLE `product_category_join` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_category_join` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_db`
+--
+
+DROP TABLE IF EXISTS `product_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `product_db` (
+  `id_product` int(11) NOT NULL,
+  `product_name` varchar(45) NOT NULL,
+  `product_description` text NOT NULL,
+  `product_img` blob NOT NULL,
+  `product_status` enum('active','inactive') NOT NULL DEFAULT 'active',
+  `product_code` varchar(15) NOT NULL,
+  `product_price` double(12,2) NOT NULL,
+  PRIMARY KEY (`id_product`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_db`
+--
+
+LOCK TABLES `product_db` WRITE;
+/*!40000 ALTER TABLE `product_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_db` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `product_imgs_db`
+--
+
+DROP TABLE IF EXISTS `product_imgs_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `product_imgs_db` (
+  `idproduct_imgs_db` int(11) NOT NULL AUTO_INCREMENT,
+  `id_product` int(11) NOT NULL,
+  `product_imgs_dbcol` blob NOT NULL,
+  PRIMARY KEY (`idproduct_imgs_db`),
+  KEY `fk_product_imgs_db_product_db1_idx` (`id_product`),
+  CONSTRAINT `fk_product_imgs_db_product_db1` FOREIGN KEY (`id_product`) REFERENCES `product_db` (`id_product`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_imgs_db`
+--
+
+LOCK TABLES `product_imgs_db` WRITE;
+/*!40000 ALTER TABLE `product_imgs_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_imgs_db` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_address_join`
 --
 
@@ -85,6 +215,7 @@ CREATE TABLE `user_db` (
   `user_email` varchar(50) NOT NULL,
   `user_cellphone` varchar(9) NOT NULL,
   `user_nacimiento` date NOT NULL,
+  `user_type` enum('user','admin') NOT NULL DEFAULT 'user',
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -95,7 +226,7 @@ CREATE TABLE `user_db` (
 
 LOCK TABLES `user_db` WRITE;
 /*!40000 ALTER TABLE `user_db` DISABLE KEYS */;
-INSERT INTO `user_db` VALUES (1,'Angel Lopez','adiction','yelito1999@gmail.com','7263-0679','1999-02-27');
+INSERT INTO `user_db` VALUES (1,'Angel Lopez','adiction','yelito1999@gmail.com','7263-0679','1999-02-27','admin');
 /*!40000 ALTER TABLE `user_db` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-13 23:02:11
+-- Dump completed on 2020-05-19 23:13:19
