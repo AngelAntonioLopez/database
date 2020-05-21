@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `mi_minimarket_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `mi_minimarket_db`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: mi_minimarket_db
@@ -65,6 +67,35 @@ CREATE TABLE `bill_db` (
 LOCK TABLES `bill_db` WRITE;
 /*!40000 ALTER TABLE `bill_db` DISABLE KEYS */;
 /*!40000 ALTER TABLE `bill_db` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bill_details_db`
+--
+
+DROP TABLE IF EXISTS `bill_details_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bill_details_db` (
+  `id_details` int(11) NOT NULL AUTO_INCREMENT,
+  `details_bill` int(11) NOT NULL,
+  `details_product` int(11) NOT NULL,
+  `details_amount` int(11) NOT NULL,
+  PRIMARY KEY (`id_details`),
+  KEY `fk_bill_details_db_bill_db1_idx` (`details_bill`),
+  KEY `fk_bill_details_db_product_db1_idx` (`details_product`),
+  CONSTRAINT `fk_bill_details_db_bill_db1` FOREIGN KEY (`details_bill`) REFERENCES `bill_db` (`idbill_db`),
+  CONSTRAINT `fk_bill_details_db_product_db1` FOREIGN KEY (`details_product`) REFERENCES `product_db` (`id_product`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bill_details_db`
+--
+
+LOCK TABLES `bill_details_db` WRITE;
+/*!40000 ALTER TABLE `bill_details_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bill_details_db` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -173,6 +204,29 @@ LOCK TABLES `product_imgs_db` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sell_form_db`
+--
+
+DROP TABLE IF EXISTS `sell_form_db`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sell_form_db` (
+  `id_sell_form` int(11) NOT NULL AUTO_INCREMENT,
+  `sell_form_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`id_sell_form`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sell_form_db`
+--
+
+LOCK TABLES `sell_form_db` WRITE;
+/*!40000 ALTER TABLE `sell_form_db` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sell_form_db` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_address_join`
 --
 
@@ -247,4 +301,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-19 23:13:19
+-- Dump completed on 2020-05-20 23:08:48
