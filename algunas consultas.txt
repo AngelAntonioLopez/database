@@ -1,0 +1,16 @@
+/*mostrar usuario y address*/
+SELECT 
+user_db.user_name, 
+user_db.user_password, 
+user_db.user_email, 
+user_db.user_cellphone, 
+user_db.user_nacimiento, 
+address_db.casa_address,
+address_db.calle_address, 
+address_db.lugar_address,
+address_db.ubicacion_address
+FROM address_db 
+inner join user_address_join 
+ON address_db.id_address = user_address_join.id_address 
+INNER JOIN user_db 
+ON user_db.id_user = user_address_join.id_user; 
